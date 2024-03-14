@@ -1,0 +1,20 @@
+FROM golang:latest
+
+WORKDIR /app
+
+COPY UserService/go.mod UserService/go.sum ./
+
+RUN go mod download
+
+# COPY UserService/handler/*.go UserService/model/*.go UserService/service/*.go ./
+# COPY UserService/handler/*.go UserService/model/*.go UserService/service/*.go ./
+COPY UserService ./
+COPY config.json ./
+
+RUN CGO_ENABLE=0 GOOS=linux go build -o ./userservice
+
+EXPOSE 8080
+
+RUN chmod +x ./userservice
+
+CMD [ "./userservice" ]

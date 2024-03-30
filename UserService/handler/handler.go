@@ -32,6 +32,8 @@ func (h *UserHandler) AddUser(ctx iris.Context) {
 	}
 	user.LastUpdate = time.Now()
 	user.AddedAt = time.Now()
+
+	h.service.AddUser(user)
 	h.service.Log.WithFields(logrus.Fields{"Name": user.Name, "Age": user.Age, "time": time.Now(), "timeTaken": time.Since(start)}).Debug("User add done ")
 	ctx.StatusCode(http.StatusCreated)
 	ctx.WriteString("User is created successfully")

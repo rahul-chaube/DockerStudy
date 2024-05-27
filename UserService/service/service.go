@@ -9,6 +9,7 @@ import (
 
 type UserServiceInterface interface {
 	AddUser(model.User) (interface{}, error)
+	ListdUser() (model.User, error)
 	DeleteUser(model.User) (interface{}, error)
 }
 
@@ -25,10 +26,17 @@ func InitUserService(l *logrus.Logger) *UserService {
 
 func (s *UserService) AddUser(user model.User) (interface{}, error) {
 	s.Log.Debug("Add User service is called", user)
-	return nil, nil
+
+	model.UserData = append(model.UserData, user)
+	return model.UserData, nil
 }
 
 func (s *UserService) DeleteUser(model.User) (interface{}, error) {
 	fmt.Println(" DeleteUser service is called ")
 	return nil, nil
+}
+
+func (s *UserService) ListUser() ([]model.User, error) {
+	s.Log.Debug("List user ")
+	return model.UserData, nil
 }

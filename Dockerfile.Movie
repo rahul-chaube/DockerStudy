@@ -1,0 +1,21 @@
+FROM golang
+
+WORKDIR /app
+
+COPY MovieService/go.mod .
+
+COPY MovieService/go.sum .
+
+RUN go mod download
+
+COPY MovieService ./
+
+RUN pwd 
+
+RUN CGO_ENABLE=0 GOOS=linux go build -o ./movieservice
+
+RUN chmod +x ./movieservice
+
+VOLUME [ "/app/movie" ]
+
+CMD [ "./movieservice" ]

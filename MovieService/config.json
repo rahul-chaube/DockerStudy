@@ -1,0 +1,7 @@
+{
+    "MovieService":{
+        "port":8081,
+        "log_dir":"/app/movie/",
+        "log_file":"movie.log"
+    }
+}

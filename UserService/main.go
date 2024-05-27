@@ -14,7 +14,6 @@ import (
 )
 
 func main() {
-	fmt.Println("System is started ++++++  ")
 	app := iris.New()
 	// var file, err = os.OpenFile("user.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	// if err != nil {
@@ -33,7 +32,14 @@ func main() {
 		return
 	}
 	log := logrus.New()
-	// log.SetOutput(file)
+	// Create the log file
+	file, err := os.OpenFile(config.UserService.LogDir+config.UserService.LogFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		logrus.Fatal("Failed to open log file:", err)
+	}
+	defer file.Close()
+
+	log.SetOutput(file)
 	log.SetLevel(logrus.DebugLevel)
 	log.SetFormatter(&logrus.JSONFormatter{})
 	userService := service.InitUserService(log)
@@ -43,6 +49,7 @@ func main() {
 	user := app.Party("/user")
 	{
 		user.Post("", userHandler.AddUser)
+		user.Get("/list", userHandler.ListUser)
 	}
 
 	app.Listen(fmt.Sprintf(":%d", config.UserService.PortNumber))

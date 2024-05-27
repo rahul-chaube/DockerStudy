@@ -6,4 +6,6 @@ type Config struct {
 
 type Service struct {
 	PortNumber string `json:"port"`
+	LogDir     string `json:"log_dir"`
+	LogFile    string `json:"log_file"`
 }

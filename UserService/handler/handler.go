@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/kataras/iris/v12"
-	"github.com/sirupsen/logrus"
 )
 
 type UserHandler struct {
@@ -20,7 +19,7 @@ func InitUserHandler(service service.UserService) *UserHandler {
 	}
 }
 func (h *UserHandler) AddUser(ctx iris.Context) {
-	start := time.Now()
+	// start := time.Now()
 	// h.service.Log.Debug("Start Wroking like pro")
 
 	var user model.User
@@ -33,9 +32,43 @@ func (h *UserHandler) AddUser(ctx iris.Context) {
 	user.LastUpdate = time.Now()
 	user.AddedAt = time.Now()
 
-	h.service.AddUser(user)
-	h.service.Log.WithFields(logrus.Fields{"Name": user.Name, "Age": user.Age, "time": time.Now(), "timeTaken": time.Since(start)}).Debug("User add done ")
-	ctx.StatusCode(http.StatusCreated)
-	ctx.WriteString("User is created successfully")
+	_, err = h.service.AddUser(user)
 
+	if err != nil {
+		ctx.StopWithPlainError(http.StatusBadRequest, iris.NewProblem().Title("User Creation is failed ").DetailErr(err))
+		return
+	}
+	h.service.Log.Debug(user)
+	// h.service.Log.Pr(logrus.Fields{"Name": user.Name, "Age": user.Age, "time": time.Now(), "timeTaken": time.Since(start)}).Debug("User add done ")
+	ctx.StatusCode(http.StatusCreated)
+	ctx.JSON(user)
+
+}
+
+func (h *UserHandler) ListUser(ctx iris.Context) {
+	// start := time.Now()
+	// h.service.Log.Debug("Start Wroking like pro")
+
+	var user model.User
+
+	err := ctx.ReadBody(&user)
+	if err != nil {
+		ctx.StopWithPlainError(http.StatusBadRequest, iris.NewProblem().Title("User List is failed ").DetailErr(err))
+		return
+	}
+	user.LastUpdate = time.Now()
+	user.AddedAt = time.Now()
+
+	userList, err := h.service.ListUser()
+
+	if err != nil {
+		ctx.StopWithPlainError(http.StatusBadRequest, iris.NewProblem().Title("User List").DetailErr(err))
+		return
+	}
+	h.service.Log.Debug(user)
+	// h.service.Log.Pr(logrus.Fields{"Name": user.Name, "Age": user.Age, "time": time.Now(), "timeTaken": time.Since(start)}).Debug("User add done ")
+	ctx.StatusCode(http.StatusCreated)
+	// ctx.Write(userList)
+
+	ctx.JSON(userList)
 }

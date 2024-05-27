@@ -2,6 +2,8 @@ package model
 
 import "time"
 
+var UserData []User
+
 type User struct {
 	Id         string
 	Name       string

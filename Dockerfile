@@ -8,7 +8,7 @@ RUN go mod download
 
 COPY FirstProject/*.go ./
 
-RUN CGO_ENABLE=0 GOOS=linux go build -o FirstProject/firstProject
+RUN CGO_ENABLE=0 GOOS=linux go build -o /firstProject
 
 EXPOSE 8080
 

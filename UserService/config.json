@@ -1,0 +1,7 @@
+{
+    "UserService":{
+        "port":8080,
+        "log_dir":"/app/user/",
+        "log_file":"user.log"
+    }
+}

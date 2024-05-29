@@ -6,15 +6,23 @@ services:
     volumes:
       - mydb:/data/db
     env_file:
-      - ./env/mongo.env
+      - MovieService/env/mongo.env
   movie:
     container_name: 'movie'
     build:
-      context: ../
+      context: ./
       dockerfile: Dockerfile.Movie
     ports:
       - '8081:8080'
     depends_on:
       - mongodb
+  simplerestapi:
+    container_name: 'simplerestapi'
+    build:
+     context: ./
+     dockerfile: Dockerfile.SimpleRestApi
+    ports:
+      - '80:80'
+
 volumes:
   mydb:

@@ -3,7 +3,7 @@
         "port":8080,
         "log_dir":"/app/movie/",
         "log_file":"movie.log",
-        "mongoUrl":"mongodb://rahul:rahul@mongodb:27017/?authSource=admin",
+        "mongoUrl":"mongodb://admin:rahul@mongodb:27017/?authSource=admin",
         "database_name":"MovieRepository"
     }
 }

@@ -4,6 +4,7 @@ use (
 	./Feedback
 	./FirstProject
 	./MovieService
+	./SimpleRestApi
 	./UserService
 	./utility
 

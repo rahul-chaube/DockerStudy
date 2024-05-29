@@ -1,0 +1,20 @@
+# version: '3.8'
+services:
+  mongodb:
+    container_name: 'mongodb'
+    image: 'mongo'
+    volumes:
+      - mydb:/data/db
+    env_file:
+      - ./env/mongo.env
+  movie:
+    container_name: 'movie'
+    build:
+      context: ../
+      dockerfile: Dockerfile.Movie
+    ports:
+      - '8081:8080'
+    depends_on:
+      - mongodb
+volumes:
+  mydb:

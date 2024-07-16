@@ -6,6 +6,7 @@ use (
 	./MovieService
 	./SimpleRestApi
 	./UserService
+	./kafkaDemo
 	./utility
 
 )
